@@ -1,5 +1,5 @@
-# adonisjs-template
-This is a boiler plate for building nodejs/adonisjs api
+# just-original.api
+This is used for both project and talent hunting...
 
 # Requirements
 - `npm >= 7.6.2`
