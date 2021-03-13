@@ -51,7 +51,7 @@ export default class AuthController {
   }
 
   public async logout ({ auth }: HttpContextContract) {
-    await auth.authenticate()
+
     await auth.use('api').logout()
 
     return {

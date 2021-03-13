@@ -53,7 +53,7 @@ Users
     ```{ "token": "some-string "}```
 
   - `/logout` method: Post 
-    - request Header: { "Application": "Bearer some-string-token-string" }
+    - request Header: { "Authorization": "Bearer some-string-token-string" }
     ```
     {
       "success": true,
