@@ -18,7 +18,7 @@ export default class TalentsController {
       const talents = await Talent.all()
 
       if (_.isEmpty(talents)) {
-        return response.status(200).send({
+        return response.status(404).send({
           success: false, message: 'talents not found'
         })
       }
@@ -78,7 +78,7 @@ export default class TalentsController {
       })
 
       const validatedData = await request.validate({
-        schema: projectSchema,
+        schema: talentSchema,
       })
 
       const talentData = {
@@ -153,7 +153,7 @@ export default class TalentsController {
       const talent = await Talent.find(params.id)
 
       if (_.isEmpty(talent)) {
-        return response.status(401).send({
+        return response.status(404).send({
           success: false, message: 'talent not found'
         })
       }
