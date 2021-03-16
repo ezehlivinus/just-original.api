@@ -22,6 +22,6 @@ export default class Projects extends BaseSchema {
   }
 
   public async down () {
-    await this.schema.dropTableIfExists(this.tableName)
+    this.schema.dropTableIfExists(this.tableName)
   }
 }
