@@ -153,7 +153,7 @@ export default class TalentsController {
       const talent = await Talent.find(params.id)
 
       if (_.isEmpty(talent)) {
-        return response.status(200).send({
+        return response.status(401).send({
           success: false, message: 'talent not found'
         })
       }

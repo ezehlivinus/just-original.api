@@ -53,6 +53,7 @@ Route.group(() => {
     .prefix('projects')
     .middleware('auth')
 
+  // Talents
   Route
     .group(() => {
       Route.post('/', 'TalentsController.create');
@@ -62,6 +63,18 @@ Route.group(() => {
       Route.delete('/:id', 'TalentsController.delete');
     })
     .prefix('talents')
+    .middleware('auth')
+
+  // Categories
+  Route
+    .group(() => {
+      Route.post('/', 'CategoriesController.create');
+      Route.get('/', 'CategoriesController.list');
+      Route.get('/:id', 'CategoriesController.retrieve');
+      Route.put('/:id', 'CategoriesController.update');
+      Route.delete('/:id', 'CategoriesController.delete');
+    })
+    .prefix('categories')
     .middleware('auth')
 
 }).prefix('api/v1');

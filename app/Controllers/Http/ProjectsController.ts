@@ -34,8 +34,6 @@ export default class ProjectsController {
         })
       }
 
-
-      
       await avatar.move(Application.tmpPath('uploads'), {
         name: `${new Date().getTime()}.${avatar.extname}`,
       })
@@ -45,7 +43,9 @@ export default class ProjectsController {
     const projectSchema = schema.create({
 
       title: schema.string({ trim: true}),
-      url: schema.string({ trim: true}),
+      url: schema.string({ trim: true}, [
+        rules.url()
+      ]),
       category: schema.string({ trim: true})
     })
 
@@ -147,7 +147,7 @@ export default class ProjectsController {
   }
 
   /**
-   * update a single projects
+   * update a single project
    */
    public async update({ request, response, logger, params }: HttpContextContract) {
     try {
@@ -186,7 +186,9 @@ export default class ProjectsController {
       const validationSchema = schema.create({
 
         title: schema.string({ trim: true}),
-        url: schema.string({ trim: true}),
+        url: schema.string({ trim: true}, [
+          rules.url()
+        ]),
         category: schema.string({ trim: true})
       })
   

@@ -10,7 +10,9 @@ export default class AuthController {
     const _user = await User.findBy('email', request.input('email'))
 
     if (!(_.isEmpty(_user))) {
-      return { success: false, message: 'user already exist' }
+      return response.status(409).send({
+        success: false, message: 'user already exist'
+      })
     }
 
     const validationSchema = schema.create({
