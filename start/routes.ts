@@ -25,6 +25,7 @@ Route.get('/', async () => {
 })
 
 Route.group(() => {
+  // Users
   Route
     .group(() => {
       Route.post('/', 'AuthController.create');
@@ -32,4 +33,24 @@ Route.group(() => {
       Route.post('/logout', 'AuthController.logout');
     })
     .prefix('users')
+
+  // Projects
+
+  // unprotected
+  Route
+    .group(() => {
+      Route.get('/', 'ProjectsController.list');
+      Route.get('/:id', 'ProjectsController.retrieve');
+    })
+    .prefix('projects')
+  // protected
+  Route
+    .group(() => {
+      Route.post('/', 'ProjectsController.create');
+      Route.put('/:id', 'ProjectsController.update');
+      Route.delete('/:id', 'ProjectsController.delete');
+    })
+    .prefix('projects')
+    .middleware('auth')
+
 }).prefix('api/v1');
