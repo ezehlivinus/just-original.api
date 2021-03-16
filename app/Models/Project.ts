@@ -12,7 +12,7 @@ export default class Project extends BaseModel {
   public url: string
 
   @column()
-  public image: string
+  public avatar: string
 
   @column()
   public category: string

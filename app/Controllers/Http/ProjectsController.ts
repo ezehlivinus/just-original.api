@@ -1,8 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Project from 'App/Models/Project'
+import Application from '@ioc:Adonis/Core/Application'
 import _ from 'lodash'
-
+import path from 'path'
+import cloudinary from '../../../config/cloudinary'
 
 export default class ProjectsController {
   /**
@@ -13,19 +15,51 @@ export default class ProjectsController {
     try {
       const user = await auth.authenticate();
 
-    const validationSchema = schema.create({
+      const avatar = request.file('avatar', {
+        size: '2mb',
+        extnames: ['jpg', 'png', 'jpeg'],
+      })
+  
+      if (!avatar) {
+        return response.status(400).send({
+          success: false,
+          message: 'Please upload file'
+        })
+      }
+  
+      if (avatar.hasErrors) {
+        return response.status(400).send({
+          success: false,
+          message: avatar.errors[0].message
+        })
+      }
+
+
+      
+      await avatar.move(Application.tmpPath('uploads'), {
+        name: `${new Date().getTime()}.${avatar.extname}`,
+      })
+
+      const cResponse = await cloudinary.uploadImage(avatar.filePath);
+  
+    const projectSchema = schema.create({
 
       title: schema.string({ trim: true}),
       url: schema.string({ trim: true}),
-      image: schema.string({ trim: true}),
       category: schema.string({ trim: true})
     })
 
     const validatedData = await request.validate({
-      schema: validationSchema,
+      schema: projectSchema,
     })
 
-    const projectData = { ...validatedData, creator: user.id }
+    const projectData = {
+      ...validatedData,
+      avatar: cResponse.secure_url,
+      creator: user.id
+    }
+
+    // handle create project
       try {
         const project = await Project.create(projectData)
 
@@ -140,7 +174,7 @@ export default class ProjectsController {
 
       project.title = validatedData.title;
       project.url = validatedData.url;
-      project.image = validatedData.image;
+      project.avatar = validatedData.avatar;
       project.category = validatedData.category;
 
       await project?.save();
@@ -154,7 +188,7 @@ export default class ProjectsController {
       
       logger.error(error);
       return response.status(401).send({
-        success: true,
+        success: false,
         message: error.message,
       })
     }
@@ -162,9 +196,9 @@ export default class ProjectsController {
   }
 
   /**
-   * update a single projects
+   * delete a single projects
    */
-   public async update({ request, response, logger, params }: HttpContextContract) {
+   public async delete({ request, response, logger, params }: HttpContextContract) {
     try {
 
       const project = await Project.find(params.id)

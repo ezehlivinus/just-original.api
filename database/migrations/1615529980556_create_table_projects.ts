@@ -8,11 +8,11 @@ export default class Projects extends BaseSchema {
     if (tableExist) {
       return true;
     }
-    this.schema.table(this.tableName, (table) => {
+    this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('title').notNullable()
       table.string('url')
-      table.string('image')
+      table.string('avatar')
       table.string('category')
       // the person (user) that(who) created the project
       table.integer('creator')
@@ -22,6 +22,6 @@ export default class Projects extends BaseSchema {
   }
 
   public async down () {
-    this.schema.dropTable(this.tableName)
+    await this.schema.dropTableIfExists(this.tableName)
   }
 }

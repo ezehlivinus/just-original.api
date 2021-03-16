@@ -22,6 +22,6 @@ export default class ApiTokens extends BaseSchema {
   }
 
   public async down () {
-    this.schema.dropSchemaIfExists(this.tableName)
+    this.schema.dropTableIfExists(this.tableName)
   }
 }
