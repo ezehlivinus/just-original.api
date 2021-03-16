@@ -152,18 +152,6 @@ export default class ProjectsController {
    public async update({ request, response, logger, params }: HttpContextContract) {
     try {
 
-      const validationSchema = schema.create({
-
-        title: schema.string({ trim: true}),
-        url: schema.string({ trim: true}),
-        image: schema.string({ trim: true}),
-        category: schema.string({ trim: true})
-      })
-  
-      const validatedData = await request.validate({
-        schema: validationSchema,
-      })
-
       const project = await Project.find(params.id)
 
       if (_.isEmpty(project)) {
@@ -172,9 +160,42 @@ export default class ProjectsController {
         })
       }
 
+      const avatar = request.file('avatar', {
+        size: '2mb',
+        extnames: ['jpg', 'png', 'jpeg'],
+      })
+
+      let cResponse: any;
+
+      if (avatar) {
+        if (avatar.hasErrors) {
+          return response.status(400).send({
+            success: false,
+            message: avatar.errors[0].message
+          })
+        }
+
+        await avatar.move(Application.tmpPath('uploads'), {
+          name: `${new Date().getTime()}.${avatar.extname}`,
+        })
+  
+        cResponse = await cloudinary.uploadImage(avatar.filePath);
+        project.avatar = cResponse.secure_url;
+      }
+
+      const validationSchema = schema.create({
+
+        title: schema.string({ trim: true}),
+        url: schema.string({ trim: true}),
+        category: schema.string({ trim: true})
+      })
+  
+      const validatedData = await request.validate({
+        schema: validationSchema,
+      })
+
       project.title = validatedData.title;
       project.url = validatedData.url;
-      project.avatar = validatedData.avatar;
       project.category = validatedData.category;
 
       await project?.save();
