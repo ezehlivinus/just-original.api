@@ -12,6 +12,9 @@ export default class Client extends BaseModel {
   public name: string
 
   @column()
+  public url: string
+
+  @column()
   public serviceType: string
 
   @column()

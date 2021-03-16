@@ -9,6 +9,7 @@ export default class Clients extends BaseSchema {
       table.string('name').notNullable()
       table.string('avatar').notNullable()
       table.string('service_type')
+      table.string('url')
       table.string('service_required')
       table.integer('creator')
       table.timestamps(true, true)

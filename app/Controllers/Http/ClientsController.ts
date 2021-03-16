@@ -73,6 +73,9 @@ export default class ClientsController {
     
         const clientSchema = schema.create({
           name: schema.string({ trim: true}),
+          url: schema.string({ trim: true}, [
+            rules.url()
+          ]),
           service_required: schema.string({ trim: true}),
           service_type: schema.string({ trim: true})
         })
@@ -84,6 +87,7 @@ export default class ClientsController {
         const clientData = {
           serviceRequired: validatedData.service_required,
           serviceType: validatedData.service_required,
+          url: validatedData.url,
           avatar: cResponse.secure_url,
           creator: user.id
         }
@@ -184,7 +188,10 @@ export default class ClientsController {
   
           name: schema.string({ trim: true}),
           service_type: schema.string({ trim: true}),
-          service_required: schema.string({ trim: true})
+          service_required: schema.string({ trim: true}),
+          url: schema.string({ trim: true}, [
+            rules.url()
+          ])
         })
     
         const validatedData = await request.validate({
@@ -192,6 +199,7 @@ export default class ClientsController {
         })
   
         client.name = validatedData.name;
+        client.url = validatedData.url;
         client.serviceType = validatedData.service_type;
         client.serviceRequired = validatedData.service_required;
   
