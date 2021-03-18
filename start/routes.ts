@@ -89,4 +89,21 @@ Route.group(() => {
     .prefix('clients')
     .middleware('auth')
 
+  // Forms
+  Route
+    .group(() => {
+      Route.post('/', 'FormsController.create');
+    })
+    .prefix('forms')
+
+  Route
+    .group(() => {
+      Route.get('/', 'FormsController.list');
+      Route.get('/:id', 'FormsController.retrieve');
+      Route.put('/:id', 'FormsController.update');
+      Route.delete('/:id', 'FormsController.delete');
+    })
+    .prefix('forms')
+    .middleware('auth')
+
 }).prefix('api/v1');

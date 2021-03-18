@@ -147,80 +147,80 @@ export default class ClientsController {
     }
    }
 
-    /**
+  /**
    * update a single client
    */
-     public async update({ request, response, logger, params }: HttpContextContract) {
-      try {
-  
-        const client = await Client.find(params.id)
-  
-        if (_.isEmpty(client)) {
-          return response.status(404).send({
-            success: false, message: 'client not found'
-          })
-        }
-  
-        const avatar = request.file('avatar', {
-          size: '2mb',
-          extnames: ['jpg', 'png', 'jpeg'],
-        })
-  
-        let cResponse: any;
-  
-        if (avatar) {
-          if (avatar.hasErrors) {
-            return response.status(400).send({
-              success: false,
-              message: avatar.errors[0].message
-            })
-          }
-  
-          await avatar.move(Application.tmpPath('uploads'), {
-            name: `${new Date().getTime()}.${avatar.extname}`,
-          })
-    
-          cResponse = await cloudinary.uploadImage(avatar.filePath);
-          client.avatar = cResponse.secure_url;
-        }
-  
-        const validationSchema = schema.create({
-  
-          name: schema.string({ trim: true}),
-          service_type: schema.string({ trim: true}),
-          service_required: schema.string({ trim: true}),
-          url: schema.string({ trim: true}, [
-            rules.url()
-          ])
-        })
-    
-        const validatedData = await request.validate({
-          schema: validationSchema,
-        })
-  
-        client.name = validatedData.name;
-        client.url = validatedData.url;
-        client.serviceType = validatedData.service_type;
-        client.serviceRequired = validatedData.service_required;
-  
-        await client?.save();
-  
-        return response.status(200).send({
-          success: true,
-          message: 'client updated',
-          data: client
-        })
-      } catch (error){
-        
-        logger.error(error);
-        return response.status(401).send({
-          success: false,
-          message: error.message,
+  public async update({ request, response, logger, params }: HttpContextContract) {
+    try {
+
+      const client = await Client.find(params.id)
+
+      if (_.isEmpty(client)) {
+        return response.status(404).send({
+          success: false, message: 'client not found'
         })
       }
-    }
 
-      /**
+      const avatar = request.file('avatar', {
+        size: '2mb',
+        extnames: ['jpg', 'png', 'jpeg'],
+      })
+
+      let cResponse: any;
+
+      if (avatar) {
+        if (avatar.hasErrors) {
+          return response.status(400).send({
+            success: false,
+            message: avatar.errors[0].message
+          })
+        }
+
+        await avatar.move(Application.tmpPath('uploads'), {
+          name: `${new Date().getTime()}.${avatar.extname}`,
+        })
+  
+        cResponse = await cloudinary.uploadImage(avatar.filePath);
+        client.avatar = cResponse.secure_url;
+      }
+
+      const validationSchema = schema.create({
+
+        name: schema.string({ trim: true}),
+        service_type: schema.string({ trim: true}),
+        service_required: schema.string({ trim: true}),
+        url: schema.string({ trim: true}, [
+          rules.url()
+        ])
+      })
+  
+      const validatedData = await request.validate({
+        schema: validationSchema,
+      })
+
+      client.name = validatedData.name;
+      client.url = validatedData.url;
+      client.serviceType = validatedData.service_type;
+      client.serviceRequired = validatedData.service_required;
+
+      await client?.save();
+
+      return response.status(200).send({
+        success: true,
+        message: 'client updated',
+        data: client
+      })
+    } catch (error){
+      
+      logger.error(error);
+      return response.status(401).send({
+        success: false,
+        message: error.message,
+      })
+    }
+  }
+
+  /**
    * delete a single client
    */
    public async delete({ request, response, logger, params }: HttpContextContract) {
