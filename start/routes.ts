@@ -78,16 +78,16 @@ Route.group(() => {
     .middleware('auth')
 
   // Client
-  Route
-    .group(() => {
-      Route.post('/', 'ClientsController.create');
-      Route.get('/', 'ClientsController.list');
-      Route.get('/:id', 'ClientsController.retrieve');
-      Route.put('/:id', 'ClientsController.update');
-      Route.delete('/:id', 'ClientsController.delete');
-    })
-    .prefix('clients')
-    .middleware('auth')
+  // Route
+  //   .group(() => {
+  //     Route.post('/', 'ClientsController.create');
+  //     Route.get('/', 'ClientsController.list');
+  //     Route.get('/:id', 'ClientsController.retrieve');
+  //     Route.put('/:id', 'ClientsController.update');
+  //     Route.delete('/:id', 'ClientsController.delete');
+  //   })
+  //   .prefix('clients')
+  //   .middleware('auth')
 
   // Forms
   Route
