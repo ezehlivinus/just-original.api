@@ -14,6 +14,7 @@ export default class Projects extends BaseSchema {
       table.string('url')
       table.string('avatar')
       table.string('category')
+      table.string('client')
       // the person (user) that(who) created the project
       table.integer('creator')
       table.timestamps(true, true)
