@@ -18,7 +18,7 @@ export default class ProjectsController {
       // validate request
       const projectSchema = schema.create({
 
-        title: schema.string({ trim: true}),,
+        title: schema.string({ trim: true}),
         client: schema.string({ trim: true}),
         url: schema.string({ trim: true}, [
           rules.url()
@@ -65,7 +65,8 @@ export default class ProjectsController {
     }
 
     const projectData = {
-      ...validatedData,
+      categoryId: validatedData.category_id,
+      ..._.omit(validatedData, ['category_id']),
       status,
       avatar: cResponse.secure_url,
       creator: user.id
@@ -167,12 +168,12 @@ export default class ProjectsController {
       // validate request
       const validationSchema = schema.create({
 
-        title: schema.string({ trim: true}),
-        client: schema.string({ trim: true}),
-        url: schema.string({ trim: true}, [
+        title: schema.string.optional({ trim: true}),
+        client: schema.string.optional({ trim: true}),
+        url: schema.string.optional({ trim: true}, [
           rules.url()
         ]),
-        category_id: schema.number()
+        category_id: schema.number.optional()
       })
   
       const validatedData = await request.validate({
@@ -227,7 +228,7 @@ export default class ProjectsController {
       project.status = status;
       project.client = validatedData.client;
       project.url = validatedData.url;
-      project.category_id = validatedData.category_id;
+      project.categoryId = validatedData.category_id;
 
       await project?.save();
 

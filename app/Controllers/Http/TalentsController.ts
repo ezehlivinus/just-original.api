@@ -74,7 +74,7 @@ export default class TalentsController {
       const talentSchema = schema.create({
         name: schema.string({ trim: true}),
         services: schema.string({ trim: true}),
-        category: schema.string({ trim: true})
+        category_id: schema.number()
       })
 
       const validatedData = await request.validate({
@@ -82,7 +82,8 @@ export default class TalentsController {
       })
 
       const talentData = {
-        ...validatedData,
+        ..._.omit(validatedData, ['category_id']),
+        categoryId: validatedData.category_id,
         avatar: cResponse.secure_url,
         creator: user.id
       }
@@ -183,9 +184,9 @@ export default class TalentsController {
 
       const validationSchema = schema.create({
 
-        name: schema.string({ trim: true}),
-        services: schema.string({ trim: true}),
-        category: schema.string({ trim: true})
+        name: schema.string.optional({ trim: true}),
+        services: schema.string.optional({ trim: true}),
+        category_id: schema.number.optional()
       })
   
       const validatedData = await request.validate({
@@ -194,7 +195,7 @@ export default class TalentsController {
 
       talent.name = validatedData.name;
       talent.services = validatedData.services;
-      talent.category = validatedData.category;
+      talent.categoryId = validatedData.category_id;
 
       await talent?.save();
 

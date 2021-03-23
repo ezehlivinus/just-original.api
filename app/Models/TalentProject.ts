@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 import {
+  BaseModel,
+  column,
   hasOne,
   HasOne,
   hasMany,
@@ -10,8 +11,8 @@ import {
   manytoMany,
   ManyToMany,
   hasManyThrough,
-  HasManyThrough
-} from '@ioc:Adonis/Lucid/Orm'
+  HasManyThrough} from '@ioc:Adonis/Lucid/Orm'
+
 import Project from './Project'
 
 export default class TalentProject extends BaseModel {
@@ -19,10 +20,10 @@ export default class TalentProject extends BaseModel {
   public id: number
 
   @column()
-  public project_id: number
+  public projectId: number
 
   @column()
-  public talent_id: number
+  public talentId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

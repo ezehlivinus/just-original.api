@@ -61,6 +61,8 @@ Route.group(() => {
       Route.get('/:id', 'TalentsController.retrieve');
       Route.put('/:id', 'TalentsController.update');
       Route.delete('/:id', 'TalentsController.delete');
+
+      Route.post('/:talent_id/projects', 'TalentsController.update');
     })
     .prefix('talents')
     .middleware('auth')

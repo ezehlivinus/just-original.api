@@ -35,7 +35,7 @@ export default class Project extends BaseModel {
   public status: string
 
   @column()
-  public category_id: number
+  public categoryId: number
 
   @column()
   public creator: number
