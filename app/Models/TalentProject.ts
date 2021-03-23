@@ -14,6 +14,7 @@ import {
   HasManyThrough} from '@ioc:Adonis/Lucid/Orm'
 
 import Project from './Project'
+import Talent from './Talent'
 
 export default class TalentProject extends BaseModel {
   @column({ isPrimary: true })
@@ -31,6 +32,9 @@ export default class TalentProject extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasMany(() => Project)
-  public projects: HasMany<typeof Project>
+  @belongsTo(() => Project)
+  public projects: BelongsTo<typeof Project>
+
+  @belongsTo(() => Talent)
+  public talents: BelongsTo<typeof Talent>
 }

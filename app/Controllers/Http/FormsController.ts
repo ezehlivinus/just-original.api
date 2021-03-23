@@ -153,7 +153,7 @@ export default class FormsController {
       logger.error(error);
       return response.status(401).send({
         success: false,
-        message: error.message,
+        message: error.messages,
       })
     }
   }
@@ -228,7 +228,7 @@ export default class FormsController {
       logger.error(error);
       return response.status(401).send({
         success: false,
-        message: error.message,
+        message: error.messages,
       })
     }
   }
@@ -260,7 +260,7 @@ export default class FormsController {
       logger.error(error);
       return response.status(401).send({
         success: false,
-        message: error.message,
+        message: error.messages,
       })
     }
   }

@@ -13,6 +13,7 @@ import {
   HasManyThrough
 } from '@ioc:Adonis/Lucid/Orm'
 import Project from './Project'
+import Talent from './Talent'
 
 export default class Category extends BaseModel {
   @column({ isPrimary: true })
@@ -32,4 +33,7 @@ export default class Category extends BaseModel {
 
   @hasMany(() => Project)
   public projects: HasMany<typeof Project>
+
+  @hasMany(() => Talent)
+  public talents: HasMany<typeof Talent>
 }

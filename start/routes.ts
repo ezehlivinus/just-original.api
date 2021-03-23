@@ -62,10 +62,23 @@ Route.group(() => {
       Route.put('/:id', 'TalentsController.update');
       Route.delete('/:id', 'TalentsController.delete');
 
-      Route.post('/:talent_id/projects', 'TalentsController.update');
+      Route.post('/:talent_id/projects', 'TalentProjectsController.create');
+      Route.put('/:talent_id/projects', 'TalentProjectsController.update');
+
     })
     .prefix('talents')
     .middleware('auth')
+
+  // TalentsProjects
+  Route
+    .group(() => {
+      // return all a talent together with its projects
+      Route.get('/:talent_id/projects', 'TalentProjectsController.retrieve');
+    })
+    .prefix('talents')
+
+    // return all talents together with their projects
+    // Route.get('talents-projects', 'TalentProjectsController.list');
 
   // Categories
   Route

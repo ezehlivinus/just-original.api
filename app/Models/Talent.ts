@@ -14,6 +14,7 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import Project from './Project'
 import TalentProject from './TalentProject'
+import Category from './Category'
 
 
 export default class Talent extends BaseModel {
@@ -41,6 +42,12 @@ export default class Talent extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasManyThrough([() => Project, () => TalentProject])
-  public projects: HasManyThrough<typeof Project>
+  @hasManyThrough([() => TalentProject, () => Project])
+  public projects: HasManyThrough<typeof TalentProject>
+
+  @hasManyThrough([() => TalentProject, () => Talent])
+  public talents: HasManyThrough<typeof TalentProject>
+  
+  @belongsTo(() => Category)
+  public category: BelongsTo<typeof Category>
 }
