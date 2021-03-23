@@ -15,6 +15,21 @@ export default class ProjectsController {
     try {
       const user = await auth.authenticate();
 
+      // validate request
+      const projectSchema = schema.create({
+
+        title: schema.string({ trim: true}),,
+        client: schema.string({ trim: true}),
+        url: schema.string({ trim: true}, [
+          rules.url()
+        ]),
+        category_id: schema.number()
+      })
+  
+      const validatedData = await request.validate({
+        schema: projectSchema,
+      })
+
       const avatar = request.file('avatar', {
         size: '2mb',
         extnames: ['jpg', 'png', 'jpeg'],
@@ -39,22 +54,19 @@ export default class ProjectsController {
       })
 
       const cResponse = await cloudinary.uploadImage(avatar.filePath);
-  
-    const projectSchema = schema.create({
 
-      title: schema.string({ trim: true}),
-      url: schema.string({ trim: true}, [
-        rules.url()
-      ]),
-      category: schema.string({ trim: true})
-    })
-
-    const validatedData = await request.validate({
-      schema: projectSchema,
-    })
+    const status = request.input('status') === undefined || null ? 'Not started' : request.input('status');
+    const statuses = ['Not started', 'Completed', 'Ongoing'];
+    if (!statuses.includes(status) ) {
+      return response.status(400).send({
+        success: false,
+        message: `status need to be one of ' ${statuses} '`
+      })
+    }
 
     const projectData = {
       ...validatedData,
+      status,
       avatar: cResponse.secure_url,
       creator: user.id
     }
@@ -80,7 +92,7 @@ export default class ProjectsController {
       logger.error(error)
       return response.status(400).send({
         success: false,
-        message: error.message
+        message: error.messages
       })
     }
     
@@ -152,6 +164,23 @@ export default class ProjectsController {
    public async update({ request, response, logger, params }: HttpContextContract) {
     try {
 
+      // validate request
+      const validationSchema = schema.create({
+
+        title: schema.string({ trim: true}),
+        client: schema.string({ trim: true}),
+        url: schema.string({ trim: true}, [
+          rules.url()
+        ]),
+        category_id: schema.number()
+      })
+  
+      const validatedData = await request.validate({
+        schema: validationSchema,
+      })
+
+    
+
       const project = await Project.find(params.id)
 
       if (_.isEmpty(project)) {
@@ -160,6 +189,16 @@ export default class ProjectsController {
         })
       }
 
+      const status = request.input('status') === undefined || null ? project.status : request.input('status');
+      const statuses = ['Not started', 'Completed', 'Ongoing'];
+      if (!statuses.includes(status) ) {
+        return response.status(400).send({
+          success: false,
+          message: `status need to be one of ' ${statuses} '`
+        })
+      }
+
+      // handle upload
       const avatar = request.file('avatar', {
         size: '2mb',
         extnames: ['jpg', 'png', 'jpeg'],
@@ -183,22 +222,12 @@ export default class ProjectsController {
         project.avatar = cResponse.secure_url;
       }
 
-      const validationSchema = schema.create({
-
-        title: schema.string({ trim: true}),
-        url: schema.string({ trim: true}, [
-          rules.url()
-        ]),
-        category: schema.string({ trim: true})
-      })
-  
-      const validatedData = await request.validate({
-        schema: validationSchema,
-      })
-
+      // update the rest of the object
       project.title = validatedData.title;
+      project.status = status;
+      project.client = validatedData.client;
       project.url = validatedData.url;
-      project.category = validatedData.category;
+      project.category_id = validatedData.category_id;
 
       await project?.save();
 
@@ -215,7 +244,6 @@ export default class ProjectsController {
         message: error.message,
       })
     }
-
   }
 
   /**

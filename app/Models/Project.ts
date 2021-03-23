@@ -15,7 +15,13 @@ export default class Project extends BaseModel {
   public avatar: string
 
   @column()
-  public category: string
+  public client: string
+
+  @column()
+  public status: string
+
+  @column()
+  public category_id: number
 
   @column()
   public creator: number
