@@ -13,9 +13,18 @@ export default class Projects extends BaseSchema {
       table.string('title').notNullable()
       table.string('url')
       table.string('avatar')
-      table.string('category')
-      // the person (user) that(who) created the project
-      table.integer('creator')
+      table.enum('status', ['Not started', 'Completed', 'Ongoing'])
+        .defaultTo('Not started')
+      table.integer('category_id').unsigned()
+        .references('id')
+        .inTable('categories')
+        .onDelete('CASCADE')
+      table.string('client').notNullable()
+      // the person (user) that(who) created the project : it is not used, it for record keeping
+      table.integer('creator').unsigned()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
       table.timestamps(true, true)
 
     })

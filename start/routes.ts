@@ -61,9 +61,24 @@ Route.group(() => {
       Route.get('/:id', 'TalentsController.retrieve');
       Route.put('/:id', 'TalentsController.update');
       Route.delete('/:id', 'TalentsController.delete');
+
+      Route.post('/:talent_id/projects', 'TalentProjectsController.create');
+      Route.put('/:talent_id/projects', 'TalentProjectsController.update');
+
     })
     .prefix('talents')
     .middleware('auth')
+
+  // TalentsProjects
+  Route
+    .group(() => {
+      // return all a talent together with its projects
+      Route.get('/:talent_id/projects', 'TalentProjectsController.retrieve');
+    })
+    .prefix('talents')
+
+    // return all talents together with their projects
+    // Route.get('talents-projects', 'TalentProjectsController.list');
 
   // Categories
   Route
@@ -78,16 +93,16 @@ Route.group(() => {
     .middleware('auth')
 
   // Client
-  Route
-    .group(() => {
-      Route.post('/', 'ClientsController.create');
-      Route.get('/', 'ClientsController.list');
-      Route.get('/:id', 'ClientsController.retrieve');
-      Route.put('/:id', 'ClientsController.update');
-      Route.delete('/:id', 'ClientsController.delete');
-    })
-    .prefix('clients')
-    .middleware('auth')
+  // Route
+  //   .group(() => {
+  //     Route.post('/', 'ClientsController.create');
+  //     Route.get('/', 'ClientsController.list');
+  //     Route.get('/:id', 'ClientsController.retrieve');
+  //     Route.put('/:id', 'ClientsController.update');
+  //     Route.delete('/:id', 'ClientsController.delete');
+  //   })
+  //   .prefix('clients')
+  //   .middleware('auth')
 
   // Forms
   Route

@@ -1,5 +1,8 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
+// This table is not used, whenever you want to use it,
+//  removed this comment and drop the table from database if exist and also
+// delete it from adonis_schema row in db, then run migration
 export default class Clients extends BaseSchema {
   protected tableName = 'clients'
 

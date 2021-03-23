@@ -13,6 +13,7 @@ export default class ClientsController {
    * @description list all clients
    */
    public async list({ response, logger }: HttpContextContract) {
+    return false; // client feature/entity was disabled
     try {
 
       const clients = await Client.all()
@@ -42,7 +43,7 @@ export default class ClientsController {
    * create a client
    */
      public async create({ request, auth, response, logger }: HttpContextContract) {
-    
+      return false; // client feature/entity was disabled
       try {
         const user = await auth.authenticate();
   
@@ -122,6 +123,7 @@ export default class ClientsController {
    * retrieve a single client
    */
    public async retrieve({ response, logger, params }: HttpContextContract) {
+    return false; // client feature/entity was disabled
     try {
 
       const client = await Client.find(params.id)
@@ -151,6 +153,7 @@ export default class ClientsController {
    * update a single client
    */
   public async update({ request, response, logger, params }: HttpContextContract) {
+    return false; // client feature/entity was disabled
     try {
 
       const client = await Client.find(params.id)
@@ -224,6 +227,8 @@ export default class ClientsController {
    * delete a single client
    */
    public async delete({ request, response, logger, params }: HttpContextContract) {
+    return false; // client feature/entity was disabled
+
     try {
 
       const client = await Client.find(params.id)

@@ -1,5 +1,19 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import {
+  hasOne,
+  HasOne,
+  hasMany,
+  HasMany,
+  belongsTo,
+  BelongsTo,
+  manytoMany,
+  ManyToMany,
+  hasManyThrough,
+  HasManyThrough
+} from '@ioc:Adonis/Lucid/Orm'
+import Category from './Category'
+import Talent from './Talent'
 
 export default class Project extends BaseModel {
   @column({ isPrimary: true })
@@ -15,7 +29,13 @@ export default class Project extends BaseModel {
   public avatar: string
 
   @column()
-  public category: string
+  public client: string
+
+  @column()
+  public status: string
+
+  @column()
+  public categoryId: number
 
   @column()
   public creator: number
@@ -25,4 +45,10 @@ export default class Project extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => Category)
+  public category: BelongsTo<typeof Category>
+
+  @belongsTo(() => Talent)
+  public talent: BelongsTo<typeof Talent>
 }

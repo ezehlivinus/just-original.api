@@ -8,7 +8,12 @@ export default class Talents extends BaseSchema {
     table.increments('id').primary()
     table.string('name').notNullable()
     table.string('avatar').notNullable()
-    table.string('category')
+
+    table.integer('category_id').unsigned()
+        .references('id')
+        .inTable('categories')
+        .onDelete('CASCADE')
+
     table.string('services')
     table.integer('creator')
     table.timestamps(true, true)
