@@ -57,8 +57,6 @@ Route.group(() => {
   Route
     .group(() => {
       Route.post('/', 'TalentsController.create');
-      Route.get('/', 'TalentsController.list');
-      Route.get('/:id', 'TalentsController.retrieve');
       Route.put('/:id', 'TalentsController.update');
       Route.delete('/:id', 'TalentsController.delete');
 
@@ -74,6 +72,8 @@ Route.group(() => {
   // TalentsProjects
   Route
     .group(() => {
+      Route.get('/', 'TalentsController.list');
+      Route.get('/:id', 'TalentsController.retrieve');
       // return a talent together with its projects
       Route.get('/:talent_id/projects', 'TalentProjectsController.retrieve');
     })
