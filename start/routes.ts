@@ -62,8 +62,10 @@ Route.group(() => {
       Route.put('/:id', 'TalentsController.update');
       Route.delete('/:id', 'TalentsController.delete');
 
+      // auth talent's project
       Route.post('/:talent_id/projects', 'TalentProjectsController.create');
       Route.put('/:talent_id/projects', 'TalentProjectsController.update');
+      Route.delete('/:talent_id/projects', 'TalentProjectsController.delete');
 
     })
     .prefix('talents')
@@ -72,7 +74,7 @@ Route.group(() => {
   // TalentsProjects
   Route
     .group(() => {
-      // return all a talent together with its projects
+      // return a talent together with its projects
       Route.get('/:talent_id/projects', 'TalentProjectsController.retrieve');
     })
     .prefix('talents')

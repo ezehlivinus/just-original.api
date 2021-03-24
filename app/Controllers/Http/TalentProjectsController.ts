@@ -8,7 +8,6 @@ import _ from 'lodash'
 export default class TalentProjectsController {
   public async create ({ request, response, logger, params }: HttpContextContract) {
     try {
-
       // validate request
       const talentProjectSchema = schema.create({
         project_id: schema.number(),
@@ -53,11 +52,6 @@ export default class TalentProjectsController {
         .where('talent_id', params.talent_id)
         .preload('projects')
 
-        // const talentProjects = TalentProject.query().preload('projects', (query) => {
-        //   query.where('talent_id', params.talent_id)
-        // })
-      // return talentProjects
-
       if (_.isEmpty(talentProjects)) {
         return response.status(404).send({
           success: false, message: 'Projects not found this talent'
@@ -77,10 +71,6 @@ export default class TalentProjectsController {
         message: error.messages,
       })
     }
-  }
-
-  public async list () {
-
   }
 
   public async update ({ request, response, logger, params }: HttpContextContract) {

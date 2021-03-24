@@ -24,6 +24,12 @@ without the above requirement, the app may not work
 - start the server with: `node ace serve --watch`
   - the server will start at: `localhost:3333`
 
+# Route List
+https://github.com/ezehlivinus/just-original.api/blob/main/route-list1.PNG
+
+https://github.com/ezehlivinus/just-original.api/blob/main/route-list2.PNG
+
+
 
 # Resource | Routes
 Users
@@ -58,5 +64,143 @@ Users
     {
       "success": true,
       "message": "logged out"
+    }
+    ```
+Project 
+- `localhost:3333/api/v1/projects`
+  - Create Project: POST: `/`
+  Request data:
+    ```
+    {
+      "title": "string name",
+      "url": "valid url",
+      "avatar": "image file",
+      "status": "any of 'Not started', 'Completed', 'Ongoing'"
+      "category_id": "number id",
+      "client": "string name",
+
+    }
+    ```
+  - List all Project: GET: `/`
+  - Retrieve a project: GET: `/id`
+  - Delete a project: DELETE: `/id`
+  - Update a project: PUT: `/id`
+        ```
+    // all or any of the following
+    {
+      "title": "string name",
+      "url": "valid url",
+      "avatar": "image file",
+      "status": "any of 'Not started', 'Completed', 'Ongoing'"
+      "category_id": "number id",
+      "client": "string name",
+
+    }
+    ```
+
+Talents 
+- `localhost:3333/api/v1/talents`
+  - Create Talent: POST: `/`
+  Request data:
+    ```
+    {
+      "name": "string name",
+      "avatar": "image file",
+      "category_id": "number id",
+      "services": "string name",
+
+    }
+    ```
+  - List all Talents: GET: `/`
+  - Retrieve a Talent: GET: `/id`
+  - Delete a Talent: DELETE: `/id`
+  - Update a talent: PUT: `/id`
+    ```
+    // all or any of
+    {
+      "name": "string name",
+      "avatar": "image file",
+      "category_id": "number id",
+      "services": "string name",
+
+    }
+    ```
+
+
+Categories 
+- `localhost:3333/api/v1/categories`
+  - Create a Category: POST: `/`
+  Request data:
+    ```
+    {
+      "name": "string name",
+      "description": "string name",
+    }
+    ```
+  - List all Categories: GET: `/`
+  - Retrieve a Category: GET: `/id`
+  - Delete a Category: DELETE: `/id`
+  - Update a Category: PUT: `/id`
+    ```
+    // all or any of
+  
+    {
+      "name": "string name",
+      "description": "string name",
+    }
+    ```
+
+
+Forms (Contact Form) 
+- `localhost:3333/api/v1/forms`
+  - Create a Form: POST: `/`
+  Request data:
+    ```
+    {
+      "attachments": "file",
+      "description": "string name",
+      "duration": "string days: 2 days",
+      "budget": "number"
+    }
+    ```
+  - List all Forms: GET: `/`
+  - Retrieve a Form: GET: `/id`
+  - Delete a Form: DELETE: `/id`
+  - Update a Form: PUT: `/id`
+    ```
+    // all or any of
+  
+    {
+      "attachments": "file",
+      "description": "string name",
+      "duration": "string days, example 2 days",
+      "budget": "number"
+    }
+    ```
+
+Talent's Projects 
+- `localhost:3333/api/v1/talents/talent_id/projects`
+  - Create a Talent's Project: POST: `/`
+  Request data:
+    ```
+    {
+      "project_id": "number id of a project",
+    }
+    ```
+
+  - Retrieve all Projects belonging to a (done by a)  talents: GET: `/`
+
+  - Delete a Talent's Project: DELETE: `/id`
+     ```
+    {
+      "project_id": "number id of a project",
+    }
+    ```
+
+  - Update a Talent's Project: PUT: `/`
+    ```
+  
+    {
+      "project_id": "number id of a project",
     }
     ```
