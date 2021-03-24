@@ -27,9 +27,9 @@ without the above requirement, the app may not work
 # Route List
 
 The image below will help determine routes that are authententicated or not as seen from the middleware column.
+![image](https://user-images.githubusercontent.com/31221649/112314338-331f8f00-8ca9-11eb-8163-9e1579728bf8.png)
 
-![route-list1](https://user-images.githubusercontent.com/31221649/112310003-5ac02880-8ca4-11eb-97f0-a3c45a90df69.PNG)
-![route-list2](https://user-images.githubusercontent.com/31221649/112310101-775c6080-8ca4-11eb-9da1-242b239c3532.PNG)
+![image](https://user-images.githubusercontent.com/31221649/112314455-59452f00-8ca9-11eb-8b8e-691e381f36ce.png)
 
 # Resource | Routes
 Users
