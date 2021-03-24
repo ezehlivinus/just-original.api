@@ -25,11 +25,11 @@ without the above requirement, the app may not work
   - the server will start at: `localhost:3333`
 
 # Route List
-https://github.com/ezehlivinus/just-original.api/blob/main/route-list1.PNG
 
-https://github.com/ezehlivinus/just-original.api/blob/main/route-list2.PNG
+The image below will help determine routes that are authententicated or not as seen from the middleware column.
+![image](https://user-images.githubusercontent.com/31221649/112314338-331f8f00-8ca9-11eb-8163-9e1579728bf8.png)
 
-
+![image](https://user-images.githubusercontent.com/31221649/112314455-59452f00-8ca9-11eb-8b8e-691e381f36ce.png)
 
 # Resource | Routes
 Users
@@ -72,6 +72,7 @@ Project
   Request data:
     ```
     {
+
       "title": "string name",
       "url": "valid url",
       "avatar": "image file",
