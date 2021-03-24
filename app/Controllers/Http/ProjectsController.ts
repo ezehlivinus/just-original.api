@@ -105,7 +105,7 @@ export default class ProjectsController {
   public async list({ response, logger }: HttpContextContract) {
     try {
 
-      const projects = await Project.all()
+      const projects = await Project.query().preload('category')
 
       if (_.isEmpty(projects)) {
         return response.status(200).send({
@@ -135,8 +135,11 @@ export default class ProjectsController {
    public async retrieve({ response, logger, params }: HttpContextContract) {
     try {
 
-      const project = await Project.find(params.id)
-
+      const project = await Project.query()
+        .where('id', params.id)
+        .preload('category')
+        .first()
+      
       if (_.isEmpty(project)) {
         return response.status(200).send({
           success: false, message: 'project not found'

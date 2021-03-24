@@ -85,14 +85,14 @@ Route.group(() => {
   // Categories
   Route
     .group(() => {
-      Route.post('/', 'CategoriesController.create');
+      Route.post('/', 'CategoriesController.create').middleware('auth');
       Route.get('/', 'CategoriesController.list');
       Route.get('/:id', 'CategoriesController.retrieve');
-      Route.put('/:id', 'CategoriesController.update');
-      Route.delete('/:id', 'CategoriesController.delete');
+      Route.put('/:id', 'CategoriesController.update').middleware('auth');
+      Route.delete('/:id', 'CategoriesController.delete').middleware('auth');
     })
     .prefix('categories')
-    .middleware('auth')
+    
 
   // Client
   // Route
