@@ -9,6 +9,10 @@
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write ."
   },
+  "engines": {
+    "node": "15.11.0",
+    "npm": "7.6.2"
+  },
   "devDependencies": {
     "@adonisjs/assembler": "^3.0.6",
     "adonis-preset-ts": "^2.0.0",
