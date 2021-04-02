@@ -13,7 +13,7 @@ export default class ProjectsController {
   public async create({ request, auth, response, logger }: HttpContextContract) {
     
     try {
-      const user = await auth.authenticate();
+      // const user = await auth.authenticate();
 
       // validate request
       const projectSchema = schema.create({
@@ -69,7 +69,7 @@ export default class ProjectsController {
       ..._.omit(validatedData, ['category_id']),
       status,
       avatar: cResponse.secure_url,
-      creator: user.id
+      creator: 1; //user.id
     }
 
     // handle create project
