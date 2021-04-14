@@ -62,13 +62,12 @@ Route.group(() => {
 
       // auth talent's project
       Route.post('/:talent_id/projects', 'TalentProjectsController.create');
-      Route.put('/:talent_id/projects', 'TalentProjectsController.update');
-      Route.delete('/:talent_id/projects', 'TalentProjectsController.delete');
+      // Route.put('/:talent_id/projects', 'TalentProjectsController.update');
+      Route.delete('/:talent_id/projects/:id', 'TalentProjectsController.delete');
 
-      // 
-      Route.post('/:talent_id/teams', 'TalentProjectsController.create');
-      // Route.put('/:talent_id/teams', 'TalentProjectsController.update');
-      // Route.delete('/:talent_id/teams', 'TalentProjectsController.delete');
+      // Teams
+      Route.post('/:talent_id/teams', 'TalentTeamsController.create');
+      Route.delete('/:talent_id/teams/:id', 'TalentTeamsController.delete');
 
     })
     .prefix('talents')
@@ -81,6 +80,10 @@ Route.group(() => {
       Route.get('/:id', 'TalentsController.retrieve');
       // return a talent together with its projects
       Route.get('/:talent_id/projects', 'TalentProjectsController.retrieve');
+
+      // teams
+      Route.get('/:talent_id/teams', 'TalentTeamsController.list');
+
     })
     .prefix('talents')
 

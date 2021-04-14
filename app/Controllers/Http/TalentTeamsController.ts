@@ -48,4 +48,76 @@ export default class TalentTeamsController {
           })
         }
       }
+
+      public async list ({ request, response, logger, params }: HttpContextContract) {
+        try {
+    
+          const talentTeams = await TalentTeam.query()
+            .where('talent_id', params.talent_id)
+            .preload('project')
+    
+          if (_.isEmpty(talentTeams)) {
+            return response.status(404).send({
+              success: false, message: 'Team member not found for this talent'
+            })
+          }
+    
+          return response.status(200).send({
+            success: true,
+            message: 'Team member list',
+            data: talentTeams
+          })
+    
+        } catch(error) {
+          logger.error(error);
+          return response.status(401).send({
+            success: false,
+            message: error.messages,
+          })
+        }
+      }
+    
+      public async delete ({ request, response, logger, params }: HttpContextContract) {
+        try {
+    
+          // validate request
+          const talentTeamSchema = schema.create({
+            project_id: schema.number()
+          })
+      
+          const talentTeamData = await request.validate({
+            schema: talentTeamSchema,
+          })
+    
+    
+          const teamMember = await TalentTeam
+            .query()
+            .where('talent_id', params.talent_id)
+            .where('project_id', talentTeamData.project_id)
+            .where('id', params.id)
+            .first()
+    
+          if (_.isEmpty(teamMember)) {
+            return response.status(401).send({
+              success: false, message: 'team member not found'
+            })
+          }
+    
+          await teamMember.delete()
+    
+          return response.status(200).send({
+            success: true,
+            message: 'team member deleted',
+            data: teamMember
+          })
+        } catch (error){
+          
+          logger.error(error);
+          return response.status(401).send({
+            success: false,
+            message: error.messages,
+          })
+        }
+      }
+
 }

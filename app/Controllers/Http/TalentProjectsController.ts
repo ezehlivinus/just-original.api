@@ -73,6 +73,7 @@ export default class TalentProjectsController {
     }
   }
 
+  // The route for the handler has being disabled
   public async update ({ request, response, logger, params }: HttpContextContract) {
     try {
 
@@ -142,6 +143,7 @@ export default class TalentProjectsController {
         .query()
         .where('talent_id', params.talent_id)
         .where('project_id', talentProjectData.project_id)
+        .where('id', params.id)
         .first()
 
       if (_.isEmpty(talentProject)) {
