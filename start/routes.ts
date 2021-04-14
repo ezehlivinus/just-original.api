@@ -65,6 +65,11 @@ Route.group(() => {
       Route.put('/:talent_id/projects', 'TalentProjectsController.update');
       Route.delete('/:talent_id/projects', 'TalentProjectsController.delete');
 
+      // 
+      Route.post('/:talent_id/teams', 'TalentProjectsController.create');
+      // Route.put('/:talent_id/teams', 'TalentProjectsController.update');
+      // Route.delete('/:talent_id/teams', 'TalentProjectsController.delete');
+
     })
     .prefix('talents')
     //.middleware('auth')

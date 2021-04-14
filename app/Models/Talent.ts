@@ -14,6 +14,7 @@ import {
 } from '@ioc:Adonis/Lucid/Orm'
 import Project from './Project'
 import TalentProject from './TalentProject'
+import TalentTeam from './TalentTeam'
 import Category from './Category'
 
 
@@ -47,6 +48,10 @@ export default class Talent extends BaseModel {
 
   @hasManyThrough([() => TalentProject, () => Talent])
   public talents: HasManyThrough<typeof TalentProject>
+
+  @hasManyThrough([() => TalentTeam, () => Talent])
+  public teams: HasManyThrough<typeof TalentTeam>
+  
   
   @belongsTo(() => Category)
   public category: BelongsTo<typeof Category>

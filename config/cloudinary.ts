@@ -17,9 +17,10 @@ class CloudUploader {
         folder: 'just-original/images'
       });
     
-      return response;
+      return { cResponse: response, success: true };
     } catch (error) {
-      throw new Error(`From Cloudinary: ${error}`);
+      // throw new Error(`From Cloudinary: ${error}`);
+      return { cResponse: error, success: false }
     }
     
   }

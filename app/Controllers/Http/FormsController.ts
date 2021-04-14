@@ -75,8 +75,11 @@ export default class FormsController {
         name: `${new Date().getTime()}.${attachments.extname}`,
       })
 
-      const cResponse = await cloudinary.uploadImage(attachments.filePath);
-  
+      const { cResponse, success } = await cloudinary.uploadImage(attachments.filePath);
+      if (!success) return response.status(500).send({
+        success, cResponse
+      })
+
       const formSchema = schema.create({
         description: schema.string({ trim: true}),
         duration: schema.string({ trim: true}),
@@ -191,8 +194,11 @@ export default class FormsController {
           name: `${new Date().getTime()}.${attachments.extname}`,
         })
   
-        cResponse = await cloudinary.uploadImage(attachments.filePath);
-        
+        const { cResponse, success } = await cloudinary.uploadImage(attachments.filePath);
+        if (!success) return response.status(500).send({
+          success, cResponse
+        })
+
         const fileInfo = {
           [attachments.clientName]: cResponse.secure_url,
           bytes: cResponse.bytes,

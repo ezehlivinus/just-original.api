@@ -31,7 +31,7 @@ export default class CategoriesController {
       logger.error(error);
       return response.status(401).send({
         success: true,
-        message: error.message,
+        message: error.messages,
       })
     }
   }
@@ -45,7 +45,7 @@ export default class CategoriesController {
 
     const categorySchema = schema.create({
       name: schema.string({ trim: true }),
-      description: schema.string({ trim: true})
+      description: schema.string.optional({ trim: true})
     })
 
     const categoryData = await request.validate({
@@ -73,7 +73,8 @@ export default class CategoriesController {
         logger.error(error)
         return response.status(500).send({
           success: false,
-          message: 'failed creating new category'
+          message: 'failed creating new category',
+          hint: error
         })
       }
 
@@ -81,7 +82,7 @@ export default class CategoriesController {
       logger.error(error)
       return response.status(400).send({
         success: false,
-        message: error.message
+        message: error.messages
       })
     }
     
@@ -97,7 +98,7 @@ export default class CategoriesController {
 
       if (_.isEmpty(category)) {
         return response.status(404).send({
-          success: false, message: 'category not found'
+          success: false, messages: 'category not found'
         })
       }
 
@@ -111,7 +112,7 @@ export default class CategoriesController {
       logger.error(error);
       return response.status(401).send({
         success: true,
-        message: error.message,
+        message: error.messages,
       })
     }
   }
@@ -163,7 +164,7 @@ export default class CategoriesController {
       logger.error(error);
       return response.status(401).send({
         success: false,
-        message: error.message,
+        message: error.messages,
       })
     }
   }
@@ -194,7 +195,7 @@ export default class CategoriesController {
         logger.error(error);
         return response.status(400).send({
           success: false,
-          message: error.message,
+          message: error.messages,
         })
       }
   

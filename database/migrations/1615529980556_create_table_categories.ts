@@ -7,7 +7,7 @@ export default class Categories extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('name').unique().notNullable()
-      table.string('description').notNullable()
+      table.string('description').nullable()
       table.timestamps(true, true)
     })
   }

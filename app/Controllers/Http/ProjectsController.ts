@@ -53,7 +53,10 @@ export default class ProjectsController {
         name: `${new Date().getTime()}.${avatar.extname}`,
       })
 
-      const cResponse = await cloudinary.uploadImage(avatar.filePath);
+      const { cResponse, success } = await cloudinary.uploadImage(avatar.filePath);
+      if (!success) return response.status(500).send({
+        success, cResponse
+      })
 
     const status = request.input('status') === undefined || null ? 'Not started' : request.input('status');
     const statuses = ['Not started', 'Completed', 'Ongoing'];
@@ -69,7 +72,7 @@ export default class ProjectsController {
       ..._.omit(validatedData, ['category_id']),
       status,
       avatar: cResponse.secure_url,
-      creator: 1; //user.id
+      creator: 1 //user.id
     }
 
     // handle create project
@@ -85,7 +88,8 @@ export default class ProjectsController {
         logger.error(error)
         return response.status(500).send({
           success: false,
-          message: 'failed creating new project'
+          message: 'failed creating new project',
+          hint: error
         })
       }
 
@@ -221,8 +225,12 @@ export default class ProjectsController {
         await avatar.move(Application.tmpPath('uploads'), {
           name: `${new Date().getTime()}.${avatar.extname}`,
         })
-  
-        cResponse = await cloudinary.uploadImage(avatar.filePath);
+
+        const { cResponse, success } = await cloudinary.uploadImage(avatar.filePath);
+        if (!success) return response.status(500).send({
+          success, cResponse
+        })
+
         project.avatar = cResponse.secure_url;
       }
 

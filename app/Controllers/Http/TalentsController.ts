@@ -44,7 +44,7 @@ export default class TalentsController {
    public async create({ request, auth, response, logger }: HttpContextContract) {
     
     try {
-      const user = await auth.authenticate();
+      // const user = await auth.authenticate();
 
       const avatar = request.file('avatar', {
         size: '2mb',
@@ -69,8 +69,12 @@ export default class TalentsController {
         name: `${new Date().getTime()}.${avatar.extname}`,
       })
 
-      const cResponse = await cloudinary.uploadImage(avatar.filePath);
+      const { cResponse, success } = await cloudinary.uploadImage(avatar.filePath);
   
+      if (!success) return response.status(500).send({
+        success, cResponse
+      })
+
       const talentSchema = schema.create({
         name: schema.string({ trim: true}),
         services: schema.string({ trim: true}),
@@ -85,7 +89,7 @@ export default class TalentsController {
         ..._.omit(validatedData, ['category_id']),
         categoryId: validatedData.category_id,
         avatar: cResponse.secure_url,
-        creator: user.id
+        creator: 1 // user.id
       }
 
     // handle create new talent
@@ -101,7 +105,8 @@ export default class TalentsController {
         logger.error(error)
         return response.status(500).send({
           success: false,
-          message: 'failed creating new talent'
+          message: 'failed creating new talent',
+          hint: error
         })
       }
 
@@ -177,8 +182,13 @@ export default class TalentsController {
         await avatar.move(Application.tmpPath('uploads'), {
           name: `${new Date().getTime()}.${avatar.extname}`,
         })
+
+        const { cResponse, success } = await cloudinary.uploadImage(avatar.filePath);
   
-        cResponse = await cloudinary.uploadImage(avatar.filePath);
+      if (!success) return response.status(500).send({
+        success, cResponse
+      })
+
         talent.avatar = cResponse.secure_url;
       }
 
