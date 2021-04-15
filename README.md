@@ -197,11 +197,61 @@ Talent's Projects
       "project_id": "number id of a project",
     }
     ```
-
+<!-- This was disabled
   - Update a Talent's Project: PUT: `/`
     ```
   
     {
       "project_id": "number id of a project",
+    }
+    ``` -->
+
+Talent's Team 
+- `localhost:3333/api/v1/talents/talent_id/teams`
+  - Add a team member to the talent: POST: `/`
+  Request data:
+    ```
+    {
+      "project_id": "number id of a project",
+      "team_member": "Full name of the new team member"
+    }
+    // when a member is added, an id is assigned, this would be provided when we want to delete this person from the team
+    ```
+
+  - List all team member belonging to a particular talent: GET: `/`
+
+  - Delete a Talent's team member: DELETE: `/id`
+     ```
+    {
+      "project_id": "number id of a project",
+    }
+    ```
+
+  Talent's Testimonies 
+- `localhost:3333/api/v1/talents/talent_id/testimonies`
+  - Add a testimony to a talent: POST: `/`
+  Request data:
+    ```
+    {
+      "project_id": "number id of a project",
+      "content": "testimonies..."
+    }
+  
+    ```
+
+  - List all testimonies belonging to a particular talent: GET: `/`
+
+  - Delete a testimony: DELETE: `/id`
+     ```
+    {
+      "project_id": "number id of a project",
+    }
+    ```
+
+  - Update a testimony: Update: `/id`
+    ```
+    {
+      "content": "testimonies..."
+      "project_id": "required, number id of a project",
     }
     ```

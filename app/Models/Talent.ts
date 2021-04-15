@@ -15,6 +15,7 @@ import {
 import Project from './Project'
 import TalentProject from './TalentProject'
 import TalentTeam from './TalentTeam'
+import TalentTestimony from './TalentTestimony'
 import Category from './Category'
 
 
@@ -52,6 +53,8 @@ export default class Talent extends BaseModel {
   @hasManyThrough([() => TalentTeam, () => Talent])
   public teams: HasManyThrough<typeof TalentTeam>
   
+  @hasManyThrough([() => TalentTestimony, () => Talent])
+  public testimonies: HasManyThrough<typeof TalentTestimony>
   
   @belongsTo(() => Category)
   public category: BelongsTo<typeof Category>

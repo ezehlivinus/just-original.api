@@ -94,6 +94,7 @@ export default class TalentProjectsController {
         .query()
         .where('talent_id', params.talent_id)
         .where('project_id', talentProjectData.project_id)
+        .where('id', params.id)
         .first()
 
       if (_.isEmpty(talentProject)) {
@@ -102,8 +103,9 @@ export default class TalentProjectsController {
         })
       }
 
+      
       const input: number = talentProjectData.project_id;
-
+      // make sure that the projectId is not null or undefined
       const projectId: number = input === undefined || null ? talentProject.projectId : input
 
       talentProject.projectId = projectId;

@@ -69,11 +69,16 @@ Route.group(() => {
       Route.post('/:talent_id/teams', 'TalentTeamsController.create');
       Route.delete('/:talent_id/teams/:id', 'TalentTeamsController.delete');
 
+      // Testimonies
+      Route.post('/:talent_id/testimonies', 'TalentTestimoniesController.create');
+      Route.put('/:talent_id/testimonies/:id', 'TalentTestimoniesController.update');
+      Route.delete('/:talent_id/testimonies/:id', 'TalentTestimoniesController.delete');
+
     })
     .prefix('talents')
     //.middleware('auth')
 
-  // TalentsProjects
+  // TalentsProjects, teams and testimonies
   Route
     .group(() => {
       Route.get('/', 'TalentsController.list');
@@ -83,6 +88,10 @@ Route.group(() => {
 
       // teams
       Route.get('/:talent_id/teams', 'TalentTeamsController.list');
+
+      // testimonies
+      Route.get('/:talent_id/testimonies', 'TalentTestimoniesController.list');
+      // Route.get('/:talent_id/testimonies', 'TalentTestimoniesController.list');
 
     })
     .prefix('talents')
