@@ -98,6 +98,27 @@ Route.group(() => {
 
     // return all talents together with their projects
     // Route.get('talents-projects', 'TalentProjectsController.list');
+  
+  // Blogs
+  Route
+  .group(() => {
+    // auth group
+    Route
+     .group(() => {
+      Route.post('/', 'BlogsController.create');
+      Route.put('/:id', 'BlogsController.update');
+      Route.delete('/:id', 'BlogsController.delete')
+     })
+    //  .middleware('auth');
+
+    //  un authenticated
+     Route.group(() => {
+      Route.get('/:id', 'BlogsController.retrieve');
+      Route.get('/', 'BlogsController.list');
+      // Route.get('/', 'BlogsController.search');
+     })
+  })
+  .prefix('blogs')
 
   // Categories
   Route
@@ -139,5 +160,6 @@ Route.group(() => {
     })
     .prefix('forms')
     // .middleware('auth')
+  
 
 }).prefix('api/v1');

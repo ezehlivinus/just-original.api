@@ -255,3 +255,36 @@ Talent's Team
       "project_id": "required, number id of a project",
     }
     ```
+
+  Blogs
+- `localhost:3333/api/v1/blogs`
+  - Create new blog: POST: `/`
+  Request data:
+    ```
+    // all field required
+    {
+      "title": "string title",
+      "writer": "the author...",
+      "avatar": "an image file, either for the author or the blog article",
+      "url": "a valid url: localhost host not acceptable",
+      "category_url": "a category id"
+    }
+  
+    ```
+
+  - List all blogs: GET: `/`
+
+  - Delete a blog: DELETE: `/id`
+
+  - Update a blog: Update: `/id`
+    ```
+    // At least one of the field
+    
+    {
+      "title": "string title",
+      "writer": "the author...",
+      "avatar": "an image file, either for the author or the blog article",
+      "url": "a valid url: localhost host not acceptable",
+      "category_url": "a category i
+    }
+    ```

@@ -106,8 +106,15 @@ export default class ProjectsController {
   /**
    * list all projects
    */
-  public async list({ response, logger }: HttpContextContract) {
+  public async list({ request, response, logger }: HttpContextContract) {
     try {
+
+       // Handle search
+    const search = !(_.isEmpty(request.get()))
+    if (search) {
+      return this.search({ request, response, logger });
+    } 
+
 
       const projects = await Project.query().preload('category')
 
@@ -289,4 +296,34 @@ export default class ProjectsController {
     }
 
   }
+
+  public async search ({ request, response, logger }) {
+    try {
+
+      const results = await Project.query()
+        .where('title', 'like', `%${request.input('search')}%`)
+        .orWhere('client', 'like', `%${request.input('search')}%`)
+        .preload('category')
+
+      if (_.isEmpty(results)) {
+        return response.status(404).send({
+          success: false, message: 'no project searched'
+        })
+      }
+
+      return response.status(200).send({
+        success: true,
+        message: 'search result',
+        data: results
+      })
+
+    } catch(error) {
+      logger.error(error);
+      return response.status(401).send({
+        success: false,
+        message: error.messages,
+      })
+    }
+  }
+  
 }
