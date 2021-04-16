@@ -120,6 +120,25 @@ Route.group(() => {
   })
   .prefix('blogs')
 
+  Route
+    .group(() => {
+      // authenticated
+      Route
+        .group(() => {
+          Route.get('/', 'MessagesController.list')
+          Route.get('/:id', 'MessagesController.retrieve')
+          Route.delete('/:id', 'MessagesController.delete')
+
+        })
+
+
+      Route
+        .group(() => {
+          Route.post('/', 'MessagesController.create')
+        })
+    })
+    .prefix('messages')
+
   // Categories
   Route
     .group(() => {

@@ -4,7 +4,6 @@ import Category from 'App/Models/Category'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 
-
 export default class CategoriesController {
   
   /**

@@ -288,3 +288,27 @@ Talent's Team
       "category_url": "a category i
     }
     ```
+
+
+  Blogs
+- `localhost:3333/api/v1/messages`
+  - Create/send new message: POST: `/`
+  Request data:
+    ```
+    {
+      "sender": "The full name of the person sending this message",
+      "email": "the sender email",
+      "phone": "sender's phone number",
+      "message": "His/Her message",
+    }
+  
+    ```
+
+  - List all message: GET: `/`
+    ``` A new property will be added to the message objects, this are used to mark the message that been read"```
+
+  - Retrieve a message: GET: `/:id`
+    ```Once a message is read, the is_read property of the message is turn to true, with this frontend person can un-bold read messages```
+
+  - Delete a message: DELETE: `/id`
+  - We cannot update message
