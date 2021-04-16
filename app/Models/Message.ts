@@ -12,7 +12,7 @@ import {
   ManyToMany,
   hasManyThrough,
   afterFetch,
-  beforeSave
+  beforeSave,
   HasManyThrough,
   afterFind} from '@ioc:Adonis/Lucid/Orm'
   import _ from 'lodash'
