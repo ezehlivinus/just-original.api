@@ -60,7 +60,7 @@ export default class FormsController {
       if (!attachments) {
         return response.status(400).send({
           success: false,
-          message: 'Please upload file'
+          message: 'Please upload/attach a file, make sure the field {attachments} is used'
         })
       }
   
