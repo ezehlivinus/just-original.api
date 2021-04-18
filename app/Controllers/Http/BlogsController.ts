@@ -41,6 +41,7 @@ export default class BlogsController {
 
         const blogSchema = schema.create({
         title: schema.string({ trim: true}),
+        content: schema.string({ trim: true}),
         url: schema.string({ trim: true}, [
             rules.url()
         ]),
@@ -56,6 +57,7 @@ export default class BlogsController {
             categoryId: validatedData.category_id,
             avatar: cResponse.secure_url,
             title: validatedData.title,
+            content: validatedData.content,
             url: validatedData.url,
             writer: validatedData.writer,
 
@@ -195,6 +197,7 @@ public async list({ request, response, logger }: HttpContextContract) {
       const validationSchema = schema.create({
 
         title: schema.string.optional({ trim: true}),
+        content: schema.string.optional({ trim: true}),
         writer: schema.string.optional({ trim: true}),
         url: schema.string.optional({ trim: true}, [
           rules.url()
@@ -207,6 +210,7 @@ public async list({ request, response, logger }: HttpContextContract) {
       })
 
       blog.title = validatedData.title;
+      blog.content = validatedData.content;
       blog.writer = validatedData.writer;
       blog.categoryId = validatedData.category_id;
       blog.url = validatedData.url;

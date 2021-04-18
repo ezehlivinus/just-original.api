@@ -32,6 +32,9 @@ export default class Blog extends BaseModel {
   public url: string
 
   @column()
+  public content: string
+
+  @column()
   public categoryId: number
 
 

@@ -9,6 +9,7 @@ export default class Blogs extends BaseSchema {
       table.string('title').notNullable()
       table.string('avatar').notNullable()
       table.string('url').notNullable()
+      table.text('content').notNullable()
       table.string('writer')
   
       table.integer('category_id').unsigned()
