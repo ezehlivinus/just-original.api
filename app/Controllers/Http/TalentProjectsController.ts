@@ -19,9 +19,11 @@ export default class TalentProjectsController {
       })
 
       try {
+        const _talentId = Number.parseInt(params.talent_id)
+
         const talentProject = await TalentProject.create({
           projectId: talentProjectData.project_id,
-          talentId: Number.parseInt(params.talent_id)
+          talentId: _talentId
         })
 
         return response.status(201).send({
