@@ -70,6 +70,7 @@ export default class TalentProjectsController {
       return response.status(401).send({
         success: false,
         message: error.messages,
+        hint: error
       })
     }
   }
@@ -169,6 +170,7 @@ export default class TalentProjectsController {
       return response.status(401).send({
         success: false,
         message: error.messages,
+        hint: error
       })
     }
   }
