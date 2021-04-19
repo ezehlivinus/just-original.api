@@ -40,7 +40,8 @@ export default class TalentProjectsController {
       logger.error(error)
       return response.status(400).send({
         success: false,
-        message: error.messages
+        message: error.messages,
+        hint: error
       })
     }
   }
@@ -123,6 +124,7 @@ export default class TalentProjectsController {
       return response.status(401).send({
         success: false,
         message: error.messages,
+        hint: error
       })
     }
   }
