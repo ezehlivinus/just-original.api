@@ -117,7 +117,8 @@ export default class ClientsController {
         logger.error(error)
         return response.status(400).send({
           success: false,
-          message: error.message
+          message: error.message,
+          hint: error
         })
       }
     }
@@ -147,6 +148,7 @@ export default class ClientsController {
       return response.status(401).send({
         success: false,
         message: error.message,
+        hint: error
       })
     }
    }
