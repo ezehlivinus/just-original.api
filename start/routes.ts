@@ -51,7 +51,7 @@ Route.group(() => {
       Route.delete('/:id', 'ProjectsController.delete');
     })
     .prefix('projects')
-    //.middleware('auth')
+    .middleware('auth')
 
   // Talents
   Route
@@ -76,7 +76,7 @@ Route.group(() => {
 
     })
     .prefix('talents')
-    //.middleware('auth')
+    .middleware('auth')
 
   // TalentsProjects, teams and testimonies
   Route
@@ -109,7 +109,7 @@ Route.group(() => {
       Route.put('/:id', 'BlogsController.update');
       Route.delete('/:id', 'BlogsController.delete')
      })
-    //  .middleware('auth');
+    .middleware('auth');
 
     //  un authenticated
      Route.group(() => {
@@ -142,25 +142,25 @@ Route.group(() => {
   // Categories
   Route
     .group(() => {
-      Route.post('/', 'CategoriesController.create'); //.middleware('auth');
+      Route.post('/', 'CategoriesController.create').middleware('auth');
       Route.get('/', 'CategoriesController.list');
       Route.get('/:id', 'CategoriesController.retrieve');
-      Route.put('/:id', 'CategoriesController.update'); //.middleware('auth');
-      Route.delete('/:id', 'CategoriesController.delete'); //.middleware('auth');
+      Route.put('/:id', 'CategoriesController.update').middleware('auth');
+      Route.delete('/:id', 'CategoriesController.delete').middleware('auth');
     })
     .prefix('categories')
     
 
   // Client
-  // Route
-  //   .group(() => {
-  //     Route.post('/', 'ClientsController.create');
-  //     Route.get('/', 'ClientsController.list');
-  //     Route.get('/:id', 'ClientsController.retrieve');
-  //     Route.put('/:id', 'ClientsController.update');
-  //     Route.delete('/:id', 'ClientsController.delete');
-  //   })
-  //   .prefix('clients')
+  Route
+    .group(() => {
+      Route.post('/', 'ClientsController.create').middleware('auth');
+      Route.get('/', 'ClientsController.list');
+      Route.get('/:id', 'ClientsController.retrieve');
+      Route.put('/:id', 'ClientsController.update').middleware('auth');
+      Route.delete('/:id', 'ClientsController.delete').middleware('auth');
+    })
+    .prefix('clients')
   //   .middleware('auth')
 
   // Forms
@@ -178,7 +178,7 @@ Route.group(() => {
       Route.delete('/:id', 'FormsController.delete');
     })
     .prefix('forms')
-    // .middleware('auth')
+    .middleware('auth')
   
 
 }).prefix('api/v1');

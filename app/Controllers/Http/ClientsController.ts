@@ -13,7 +13,7 @@ export default class ClientsController {
    * @description list all clients
    */
    public async list({ response, logger }: HttpContextContract) {
-    return false; // client feature/entity was disabled
+
     try {
 
       const clients = await Client.all()
@@ -34,7 +34,7 @@ export default class ClientsController {
       logger.error(error);
       return response.status(401).send({
         success: false,
-        message: error.message,
+        message: error,
       })
     }
   }
@@ -43,42 +43,44 @@ export default class ClientsController {
    * create a client
    */
      public async create({ request, auth, response, logger }: HttpContextContract) {
-      return false; // client feature/entity was disabled
+
+      const user = await auth.authenticate();
+
       try {
-        const user = await auth.authenticate();
-  
         const avatar = request.file('avatar', {
-          size: '2mb',
-          extnames: ['jpg', 'png', 'jpeg'],
+        size: '2mb',
+        extnames: ['jpg', 'png', 'jpeg'],
         })
-    
+
         if (!avatar) {
-          return response.status(400).send({
+        return response.status(400).send({
             success: false,
             message: 'Please upload file'
-          })
+        })
         }
-    
+
         if (avatar.hasErrors) {
-          return response.status(400).send({
+        return response.status(400).send({
             success: false,
             message: avatar.errors[0].message
-          })
+        })
         }
         
         await avatar.move(Application.tmpPath('uploads'), {
-          name: `${new Date().getTime()}.${avatar.extname}`,
+        name: `${new Date().getTime()}.${avatar.extname}`,
         })
-  
-        const cResponse = await cloudinary.uploadImage(avatar.filePath);
-    
+
+        const { cResponse, success } = await cloudinary.uploadImage(avatar.filePath);
+
+        if (!success) return response.status(500).send({
+        success, cResponse
+        })
+
+
         const clientSchema = schema.create({
           name: schema.string({ trim: true}),
-          url: schema.string({ trim: true}, [
-            rules.url()
-          ]),
-          service_required: schema.string({ trim: true}),
-          service_type: schema.string({ trim: true})
+          bio: schema.string({ trim: true}),
+          business_type: schema.string({ trim: true})
         })
   
         const validatedData = await request.validate({
@@ -86,9 +88,9 @@ export default class ClientsController {
         })
   
         const clientData = {
-          serviceRequired: validatedData.service_required,
-          serviceType: validatedData.service_required,
-          url: validatedData.url,
+          businessType: validatedData.business_type,
+          bio: validatedData.bio,
+          name: validatedData.name,
           avatar: cResponse.secure_url,
           creator: user.id
         }
@@ -106,7 +108,8 @@ export default class ClientsController {
           logger.error(error)
           return response.status(500).send({
             success: false,
-            message: 'failed creating new client'
+            message: 'failed creating new client',
+            hint: error
           })
         }
   
@@ -123,7 +126,6 @@ export default class ClientsController {
    * retrieve a single client
    */
    public async retrieve({ response, logger, params }: HttpContextContract) {
-    return false; // client feature/entity was disabled
     try {
 
       const client = await Client.find(params.id)
@@ -153,7 +155,7 @@ export default class ClientsController {
    * update a single client
    */
   public async update({ request, response, logger, params }: HttpContextContract) {
-    return false; // client feature/entity was disabled
+
     try {
 
       const client = await Client.find(params.id)
@@ -169,7 +171,7 @@ export default class ClientsController {
         extnames: ['jpg', 'png', 'jpeg'],
       })
 
-      let cResponse: any;
+      let _cResponse: any;
 
       if (avatar) {
         if (avatar.hasErrors) {
@@ -182,19 +184,22 @@ export default class ClientsController {
         await avatar.move(Application.tmpPath('uploads'), {
           name: `${new Date().getTime()}.${avatar.extname}`,
         })
+
+        const { cResponse, success } = await cloudinary.uploadImage(avatar.filePath);
   
-        cResponse = await cloudinary.uploadImage(avatar.filePath);
-        client.avatar = cResponse.secure_url;
+      if (!success) return response.status(500).send({
+        success, cResponse
+      })
+
+      _cResponse = cResponse.secure_url;
       }
 
-      const validationSchema = schema.create({
+      client.avatar = _cResponse === undefined || null ? client.avatar : _cResponse
 
+      const validationSchema = schema.create({
         name: schema.string({ trim: true}),
-        service_type: schema.string({ trim: true}),
-        service_required: schema.string({ trim: true}),
-        url: schema.string({ trim: true}, [
-          rules.url()
-        ])
+        bio: schema.string({ trim: true}),
+        business_type: schema.string({ trim: true})
       })
   
       const validatedData = await request.validate({
@@ -202,10 +207,9 @@ export default class ClientsController {
       })
 
       client.name = validatedData.name;
-      client.url = validatedData.url;
-      client.serviceType = validatedData.service_type;
-      client.serviceRequired = validatedData.service_required;
-
+      client.bio = validatedData.bio;
+      client.businessType = validatedData.business_type;
+      
       await client?.save();
 
       return response.status(200).send({
@@ -219,6 +223,7 @@ export default class ClientsController {
       return response.status(401).send({
         success: false,
         message: error.message,
+        hint: error
       })
     }
   }
@@ -227,7 +232,6 @@ export default class ClientsController {
    * delete a single client
    */
    public async delete({ request, response, logger, params }: HttpContextContract) {
-    return false; // client feature/entity was disabled
 
     try {
 
@@ -252,6 +256,7 @@ export default class ClientsController {
       return response.status(401).send({
         success: false,
         message: error.message,
+        hint: error
       })
     }
 

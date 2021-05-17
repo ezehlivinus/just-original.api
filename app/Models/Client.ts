@@ -12,13 +12,13 @@ export default class Client extends BaseModel {
   public name: string
 
   @column()
-  public url: string
+  public bio: string
 
   @column()
-  public serviceType: string
+  public businessType: string
 
-  @column()
-  public serviceRequired: string
+  // @column()
+  // public serviceRequired: string
 
   @column()
   public creator: number
